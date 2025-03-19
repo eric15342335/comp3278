@@ -1,0 +1,4 @@
+mysql -u root
+show databases;
+use march4;
+show tables;
