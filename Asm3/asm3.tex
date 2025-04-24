@@ -1,0 +1,331 @@
+\documentclass{article}[a4paper,11pt]
+\usepackage{amssymb, amsthm, enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.4in, bottom=0.75in]{geometry}
+\usepackage[fleqn]{amsmath}
+\usepackage{microtype}
+\usepackage{verbatim}
+\usepackage{datetime}
+\usepackage[pdfusetitle]{hyperref}
+\usepackage{bookmark}
+\usepackage{array}
+\usepackage{booktabs} 
+\usepackage{lmodern}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% ----- PDF Metadata -----
+\hypersetup{
+    pdftitle={COMP3278C Assignment 3},
+    pdfauthor={Cheng Ho Ming, Eric (3036216734)}, % <<< Placeholder for author
+    pdfsubject={Database Management Systems Assignment},
+    pdfkeywords={Database, Functional Dependencies, BCNF, Normalization, COMP3278C, HKU},
+    bookmarksopen=true, 
+    bookmarksnumbered=true 
+}
+
+% ----- Title Block -----
+\title{COMP3278C Introduction to Database Management Systems \\ Assignment 3: Functional Dependencies and BCNF Decomposition}
+\author{Cheng Ho Ming, Eric (3036216734) \\ Section 2C, 2024}
+\date{\today \ \currenttime}
+
+\begin{document}
+\maketitle
+
+\section*{Question 1}
+
+Given relation $R(A, B, C, D, E)$ and functional dependencies, $F = \{ A \rightarrow B, B \rightarrow C, CA \rightarrow D, C \rightarrow A, D \rightarrow E \}$. Let $\alpha = \{A, C\}$. Compute the closure $\alpha^+$ under $F$.
+
+\vspace{1em} 
+
+\noindent 
+\textbf{Answer:}
+
+$\alpha^+ = \{ A, B, C, D, E \}$
+
+%---------------------------------------------------------
+\section*{Question 2}
+
+Given a relation $R(A, B, C)$ and the following functional dependencies:
+\[ F = \{ A \rightarrow B, \quad C \rightarrow B \}, \]
+compute $F^+$, the closure of all functional dependencies in $F$. Your final answer should present a comprehensive list of all functional dependencies that can be derived from F.
+
+\vspace{1em}
+
+\noindent 
+\textbf{Answer:}
+
+\begin{center}
+\begin{tabular}{@{} l *{7}{p{0.125\textwidth} @{}} } 
+\toprule
+\textbf{} & \textbf{\{A\}} & \textbf{\{B\}} & \textbf{\{C\}} & \textbf{\{AB\}} & \textbf{\{AC\}} & \textbf{\{BC\}} & \textbf{\{ABC\}} \\
+\midrule
+\textbf{Attribute} \\ \textbf{set closure} & 
+$\{ A, B \}$ & % Closure of A
+$\{ B \}$ & % Closure of B
+$\{ B, C \}$ & % Closure of C
+$\{ A, B \}$ & % Closure of AB
+$\{ A, B, C \}$ & % Closure of AC
+$\{ B, C \}$ & % Closure of BC
+$\{ A, B, C \}$ \\ % Closure of ABC
+\midrule[\heavyrulewidth]
+\textbf{FD} & & & & & & & \\ &
+\multicolumn{1}{p{0.1\textwidth}}{\raggedright
+    % List FDs derived from {A}+ here
+    $A \rightarrow A$
+    $A \rightarrow B$
+} &
+\multicolumn{1}{p{0.1\textwidth}}{\raggedright
+    % List FDs derived from {B}+ here
+    $B \rightarrow B$
+} &
+\multicolumn{1}{p{0.1\textwidth}}{\raggedright
+    % List FDs derived from {C}+ here
+    $C \rightarrow B$
+    $C \rightarrow C$
+} &
+\multicolumn{1}{p{0.1\textwidth}}{\raggedright
+    % List FDs derived from {AB}+ here
+    $AB \rightarrow A$
+    $AB \rightarrow B$
+    $AB \rightarrow AB$
+} &
+\multicolumn{1}{p{0.1\textwidth}}{\raggedright
+    % List FDs derived from {AC}+ here
+    $AC \rightarrow A$
+    $AC \rightarrow B$
+    $AC \rightarrow C$
+    $AC \rightarrow AB$
+    $AC \rightarrow AC$
+    $AC \rightarrow BC$
+    $AC \rightarrow ABC$
+} &
+\multicolumn{1}{p{0.1\textwidth}}{\raggedright
+    % List FDs derived from {BC}+ here
+    $BC \rightarrow B$
+    $BC \rightarrow C$
+    $BC \rightarrow BC$    
+} &
+\multicolumn{1}{p{0.1\textwidth}}{\raggedright
+    % List FDs derived from {ABC}+ here
+    $ABC \rightarrow A$
+    $ABC \rightarrow B$
+    $ABC \rightarrow C$
+    $ABC \rightarrow AB$
+    $ABC \rightarrow AC$
+    $ABC \rightarrow BC$
+    $ABC \rightarrow ABC$
+} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%---------------------------------------------------------
+\newpage 
+\section*{Question 3}
+
+Consider the relation schema:
+\[ R = (A, B, C, D, E) \]
+with the following functional dependencies:
+\[ F = \{ A \rightarrow B, \quad C \rightarrow D, \quad AB \rightarrow E, \quad C \rightarrow E, \quad AB \rightarrow C \}. \]
+
+\vspace{1em}
+
+\subsection*{(1) Identify all candidate keys for $R$.}
+
+\noindent 
+\textbf{Steps:}
+
+% Provide your step-by-step derivation here.
+\begin{enumerate}
+    \item Is A a superkey?
+    \begin{itemize}
+        \item $\{A\}^+ = \{A, B, C, D, E\} = R$
+        \item $A$ is a superkey.
+    \end{itemize}
+    \item Is B a superkey?
+    \begin{itemize}
+        \item $\{B\}^+ = \{B\} \neq R$
+        \item $B$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is C a superkey?
+    \begin{itemize}
+        \item $\{C\}^+ = \{C,D,E\} \neq R$
+        \item $C$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is D a superkey?
+    \begin{itemize}
+        \item $\{D\}^+ = \{D\} \neq R$
+        \item $D$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is E a superkey?
+    \begin{itemize}
+        \item $\{E\}^+ = \{E\} \neq R$
+        \item $E$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item (Skipped AB, AC, AD, AE since A is a superkey)
+    \item Is BC a superkey?
+    \begin{itemize}
+        \item $\{BC\}^+ = \{B,C,D,E\} \neq R$
+        \item $BC$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is BD a superkey?
+    \begin{itemize}
+        \item $\{BD\}^+ = \{B,D\} \neq R$
+        \item $BD$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is BE a superkey?
+    \begin{itemize}
+        \item $\{BE\}^+ = \{B,E\} \neq R$
+        \item $BE$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is CD a superkey?
+    \begin{itemize}
+        \item $\{CD\}^+ = \{C,D,E\} \neq R$
+        \item $CD$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is CE a superkey?
+    \begin{itemize}
+        \item $\{CE\}^+ = \{C,D,E\} \neq R$
+        \item $CE$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is DE a superkey?
+    \begin{itemize}
+        \item $\{DE\}^+ = \{D,E\} \neq R$
+        \item $DE$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item (Skipped ABC, ABD, ABE, ACD, ACE, ADE since A is a superkey)
+    \item Is BCD a superkey?
+    \begin{itemize}
+        \item $\{BCD\}^+ = \{B,C,D,E\} \neq R$
+        \item $BCD$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is BCE a superkey?
+    \begin{itemize}
+        \item $\{BCE\}^+ = \{B,C,D,E\} \neq R$
+        \item $BCE$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is BDE a superkey?
+    \begin{itemize}
+        \item $\{BDE\}^+ = \{B,D,E\} \neq R$
+        \item $BDE$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item Is CDE a superkey?
+    \begin{itemize}
+        \item $\{CDE\}^+ = \{C,D,E\} \neq R$
+        \item $CDE$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item (Skipped ABCD, ABCE, ABDE, ACDE since A is a superkey)
+    \item Is BCDE a superkey?
+    \begin{itemize}
+        \item $\{BCDE\}^+ = \{B,C,D,E\} \neq R$
+        \item $BCDE$ is \textbf{NOT} a superkey.
+    \end{itemize}
+    \item (Skipped ABCDE since A is a superkey)
+\end{enumerate}
+
+\vspace{1em}
+\noindent 
+\textbf{Candidate Keys:} $\{ A \}$
+
+\vspace{2em} 
+
+\subsection*{(2) Determine whether $R$ is in Boyce-Codd Normal Form (BCNF).}
+
+R is \textbf{NOT} in BCNF.
+
+\vspace{1em}
+
+% Explain reasoning based on definition of BCNF and the candidate keys found.
+BCNF requires that for every non-trivial FD $\alpha \rightarrow \beta$, $\alpha$ must be a superkey.
+
+Candidate key found: $\{ A \}$
+
+To check for violations of BCNF, we only have to check the FDs in $F$.
+
+\begin{itemize}
+    \item $A \rightarrow B$: $\{ A \}$ is a superkey. (OK)
+    \item $C \rightarrow D$: $\{ C \}$ is not a superkey. (Violation)
+    \item $AB \rightarrow E$: $\{ AB \}$ is a superkey since $A$ is a superkey. (OK)
+    \item $C \rightarrow E$: $\{ C \}$ is not a superkey. (Violation)
+    \item $AB \rightarrow C$: $\{ AB \}$ is a superkey since $A$ is a superkey. (OK)
+\end{itemize}
+
+\subsection*{(3) BCNF Decomposition.}
+
+\textbf{Decomposition Process:}
+
+\underline{Iteration 1:}
+\begin{itemize}
+    \item Start with relation: $R(A,B,C,D,E)$ with $F = \{ A \rightarrow B, C \rightarrow D, AB \rightarrow E, C \rightarrow E, AB \rightarrow C \}$.
+    \item Choose a violating FD: $C \rightarrow D$.
+    \item Decompose $R$ into:
+    \begin{itemize}
+        \item $R_1(C,D)$
+        \item $R_2(A,B,C,E)$
+    \end{itemize}
+    \item Check for BCNF:
+    \begin{itemize}
+        \item $F_1$: $\{ C \rightarrow D, trivials\}$, since $\{C\}^+ = \{C,D\} = R_1$, $R_1$ is in BCNF.
+        \item $F_2$: $\{ A \rightarrow B, C \rightarrow E, AB \rightarrow C, AB \rightarrow E, trivials\}$, check each FD:
+        \begin{itemize}
+            \item $A \rightarrow B$: $\{ A \}^+ = \{ A, B, C, E \} = R_2$. (OK)
+            \item $C \rightarrow E$: $\{ C \}^+ = \{ C, E \} \neq R_2$. (Violation)
+            \item $AB \rightarrow C$: $\{ AB \}^+ = \{ A, B, C, E \} = R_2$. (OK)
+            \item $AB \rightarrow E$: $\{ AB \}^+ = \{ A, B, C, E \} = R_2$. (OK)
+            \item $R_2$ is \textbf{NOT} in BCNF.
+        \end{itemize}
+    \end{itemize}
+    \item Check for dependency preserving:
+    \begin{itemize}
+        \item Since $(F_1 \cup F_2)^+ = F^+$, this decomposition is dependency preserving.
+    \end{itemize}
+    \item Check for loseless join:
+    \begin{itemize}
+        \item $(schema (R_1) \cap schema(R_2) \rightarrow schema(R_1)) \Leftrightarrow (C \rightarrow CD)$, where $C \rightarrow CD$ is true.
+        \item This decomposition is loseless join.
+    \end{itemize}
+\end{itemize}
+
+\underline{Iteration 2:}
+\begin{itemize}
+    \item Start with relation: $R_2(A,B,C,E)$ with $F_2 = \{ A \rightarrow B, C \rightarrow E, AB \rightarrow C, AB \rightarrow E, trivials\}$.
+    \item Choose a violating FD: $C \rightarrow E$.
+    \item Decompose $R_2$ into:
+    \begin{itemize}
+        \item $R_3(C,E)$
+        \item $R_4(A,B,C)$
+    \end{itemize}
+    \item Check for BCNF:
+    \begin{itemize}
+        \item $F_3$: $\{ C \rightarrow E, trivials\}$, since $\{C\}^+ = \{C,E\} = R_3$, $R_3$ is in BCNF.
+        \item $F_4$: $\{ A \rightarrow B, AB \rightarrow C, trivials\}$, check each FD:
+        \begin{itemize}
+            \item $A \rightarrow B$: $\{ A \}^+ = \{ A, B, C \} = R_4$. (OK)
+            \item $AB \rightarrow C$: $\{ AB \}^+ = \{ A, B, C \} = R_4$. (OK)
+            \item $R_4$ is in BCNF.
+        \end{itemize}
+    \end{itemize}
+    \item Check for dependency preserving:
+    \begin{itemize}
+        \item $(F_1 \cup F_3 \cup F_4)^+ = F^+$, this decomposition is dependency preserving.
+    \end{itemize}
+    \item Check for loseless join:
+    \begin{itemize}
+        \item $(schema (R_3) \cap schema(R_4) \rightarrow schema(R_3)) \Leftrightarrow (C \rightarrow CE)$, where $C \rightarrow CE$ is true.
+        \item This decomposition is loseless join.
+    \end{itemize}
+\end{itemize}
+
+\underline{Result of a BCNF decomposition on $R$:}
+
+\begin{itemize}
+    \item $R_1(C,D)$
+    \item $R_3(C,E)$
+    \item $R_4(A,B,C)$
+    \item $F_1 = \{ C \rightarrow D, trivials\}$
+    \item $F_3 = \{ C \rightarrow E, trivials\}$
+    \item $F_4 = \{ A \rightarrow B, AB \rightarrow C, trivials\}$
+\end{itemize}
+
+\end{document}
